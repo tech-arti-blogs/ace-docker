@@ -1,0 +1,19 @@
+apiVersion : apps/v1
+kind: Deployment
+metadata:
+  name: techartiblogsacedocker 
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: techartiblogsacedocker
+  template:
+    metadata:
+      labels:
+        app: techartiblogsacedocker 
+    spec:
+      containers:
+        - name: techartiblogsacedocker 
+          image: mycontainerregistry20122022.azurecr.io/techartiblogsacedocker
+          ports:
+          - containerPort: 7600
