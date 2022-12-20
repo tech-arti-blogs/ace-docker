@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ace
+  labels:
+    app: ace
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ace
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ace
+    spec:
+      containers:
+        - name: ace
+          image: mycontainerregistry08122022.azurecr.io/mayankahuja/aceimage:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 7600
+              name: webui
+            - containerPort: 7800
+              name: ace-http
+            - containerPort: 7843
+              name: ace-https
+          env:
+            - name: LICENSE
+              value: accept
+            - name: ACE_SERVER_NAME
+              value: ACE_SERVER
+#            - name: LOG_FORMAT
+#              value: json
+#            - name: ACE_ENABLE_METRICS
+#              value: true
+          resources: {}
+      imagePullSecrets:
+        - name: azure-docker-registry
+
+
+
+---
+
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: ace
+  labels:
+    app: ace
+spec:
+  selector:
+    app: ace
+  ports:
+    - name: ace-http
+      port: 7800
+      protocol: TCP
+      targetPort: 7800
+    - name: ace-https
+      port: 7843
+      protocol: TCP
+      targetPort: 7843
+    - name: webui
+      port: 8080
+      protocol: TCP
+      targetPort: 7600
+  type: NodePort
