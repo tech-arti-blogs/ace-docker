@@ -1,14 +1,14 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: ace
+  name: aceimagemqclient4
   labels:
-    app: ace
+    app: aceimagemqclient4
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: ace
+      app: aceimagemqclient4
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -17,11 +17,11 @@ spec:
   template:
     metadata:
       labels:
-        app: ace
+        app: aceimagemqclient4
     spec:
       containers:
-        - name: ace
-          image: mycontainerregistry08122022.azurecr.io/mayankahuja/aceimage:latest
+        - name: aceimagemqclient4
+          image: mycontainerregistry20122022.azurecr.io/mayankahuja/acemqclient:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 7600
@@ -52,12 +52,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ace
+  name: aceimagemqclient4
   labels:
-    app: ace
+    app: aceimagemqclient4
 spec:
   selector:
-    app: ace
+    app: aceimagemqclient4
   ports:
     - name: ace-http
       port: 7800
